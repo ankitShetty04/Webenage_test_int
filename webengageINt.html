@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newsletter Signup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .newsletter-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        .newsletter-container h2 {
+            margin-bottom: 15px;
+        }
+        .newsletter-container input[type="text"],
+        .newsletter-container input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .newsletter-container label {
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: start;
+        }
+        .newsletter-container button {
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .newsletter-container button:hover {
+            background: #0056b3;
+        }
+    </style>
+    <script>
+        (function(w, e, b, n, g){
+            w[n] = w[n] || function(){ (w[n].q = w[n].q || []).push(arguments) };
+            var script = document.createElement('script'); script.async = 1;
+            script.src = 'https://cdn.webengage.com/js/webengage-min-v6.js';
+            document.head.appendChild(script);
+        })(window, document, 'script', 'webengage');
+        
+        function validateForm(event) {
+            event.preventDefault();
+            let firstName = document.getElementById("firstName").value.trim();
+            let lastName = document.getElementById("lastName").value.trim();
+            let phoneNumber = document.getElementById("phoneNumber").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let whatsappOptin = document.getElementById("whatsappOptin").checked;
+            
+            let phonePattern = /^\d{10}$/;
+            let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (firstName === "" || lastName === "" || phoneNumber === "" || email === "") {
+                alert("All fields are required.");
+                return;
+            }
+            if (!phonePattern.test(phoneNumber)) {
+                alert("Please enter a valid 10-digit phone number.");
+                return;
+            }
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address.");
+                return;
+            }
+            
+            webengage.user.login(email);
+            webengage.user.setAttribute("we_first_name", firstName);
+            webengage.user.setAttribute("we_last_name", lastName);
+            webengage.user.setAttribute("we_phone", phoneNumber);
+            webengage.track("Newsletter Signup", {
+                "First Name": firstName,
+                "Last Name": lastName,
+                "Phone Number": phoneNumber,
+                "Email": email,
+                "WhatsApp Opt-in": whatsappOptin ? "Yes" : "No"
+            });
+            
+            alert("Form submitted successfully!");
+        }
+    </script>
+</head>
+<body>
+    <div class="newsletter-container">
+        <h2>Subscribe to our Newsletter</h2>
+        <form onsubmit="validateForm(event)">
+            <input type="text" id="firstName" placeholder="First Name" required>
+            <input type="text" id="lastName" placeholder="Last Name" required>
+            <input type="text" id="phoneNumber" placeholder="Phone Number" required>
+            <input type="email" id="email" placeholder="Enter your email" required>
+            <label>
+                <input type="checkbox" id="whatsappOptin"> I agree to receive updates via WhatsApp
+            </label>
+            <button type="submit">Login</button>
+            <button type="button" onclick="webengage.track('Add to Cart', { 'Email': document.getElementById('email').value }); alert('Added to cart!')">Add to Cart</button>
+        </form>
+    </div>
+</body>
+</html>
