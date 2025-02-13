@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Sign Up Form with Validations</title>
+  <title>Sign Up Form with WebEngage Tracking</title>
   <style>
     form {
       max-width: 400px;
@@ -48,13 +48,41 @@
       background-color: #0056b3;
     }
   </style>
+  <!-- WebEngage Script -->
   <script id='_webengage_script_tag' type='text/javascript'>
-var webengage;!function(w,e,b,n,g){function o(e,t){e[t[t.length-1]]=function(){r.__queue.push([t.join("."),
-arguments])}}var i,s,r=w[b],z=" ",l="init options track screen onReady".split(z),a="webPersonalization feedback survey notification notificationInbox".split(z),c="options render clear abort".split(z),p="Prepare Render Open Close Submit Complete View Click".split(z),u="identify login logout setAttribute".split(z);if(!r||!r.__v){for(w[b]=r={__queue:[],__v:"6.0",user:{}},i=0;i < l.length;i++)o(r,[l[i]]);for(i=0;i < a.length;i++){for(r[a[i]]={},s=0;s < c.length;s++)o(r[a[i]],[a[i],c[s]]);for(s=0;s < p.length;s++)o(r[a[i]],[a[i],"on"+p[s]])}for(i=0;i < u.length;i++)o(r.user,["user",u[i]]);setTimeout(function(){var f=e.createElement("script"),d=e.getElementById("_webengage_script_tag");f.type="text/javascript",f.async=!0,f.src=("https:"==e.location.protocol?"https://ssl.widgets.webengage.com":"http://cdn.widgets.webengage.com")+"/js/webengage-min-v-6.0.js",d.parentNode.insertBefore(f,d)})}}(window,document,"webengage");webengage.init("~1341048c0");
-</script>
+    var webengage;
+    !function(w,e,b,n,g){
+      function o(e,t){
+        e[t[t.length-1]]=function(){
+          r.__queue.push([t.join("."), arguments])
+        }
+      }
+      var i,s,r=w[b],z=" ",l="init options track screen onReady".split(z),
+          a="webPersonalization feedback survey notification notificationInbox".split(z),
+          c="options render clear abort".split(z),
+          p="Prepare Render Open Close Submit Complete View Click".split(z),
+          u="identify login logout setAttribute".split(z);
+      if(!r||!r.__v){
+        for(w[b]=r={__queue:[],__v:"6.0",user:{}},i=0;i<l.length;i++) o(r,[l[i]]);
+        for(i=0;i<a.length;i++){
+          for(r[a[i]]={},s=0;s<c.length;s++) o(r[a[i]],[a[i],c[s]]);
+          for(s=0;s<p.length;s++) o(r[a[i]],[a[i],"on"+p[s]])
+        }
+        for(i=0;i<u.length;i++) o(r.user,["user",u[i]]);
+        setTimeout(function(){
+          var f=e.createElement("script"),
+              d=e.getElementById("_webengage_script_tag");
+          f.type="text/javascript",f.async=!0,
+          f.src=("https:"==e.location.protocol?"https://ssl.widgets.webengage.com":"http://cdn.widgets.webengage.com")+"/js/webengage-min-v-6.0.js",
+          d.parentNode.insertBefore(f,d)
+        })
+      }
+    }(window,document,"webengage");
+    webengage.init("~1341048c0");
+  </script>
 </head>
 <body>
-  <form action="#" method="post">
+  <form id="signupForm" action="#" method="post">
     <!-- First Name -->
     <div class="form-group">
       <label for="firstName">First Name:</label>
@@ -126,5 +154,60 @@ arguments])}}var i,s,r=w[b],z=" ",l="init options track screen onReady".split(z)
       <button type="submit" name="action" value="addtocart">Add to Cart</button>
     </div>
   </form>
+
+  <script>
+    // Listen for form submission to capture user info and track events
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+      // Uncomment the next line if you want to handle submission via AJAX
+      // e.preventDefault();
+
+      // Determine which button was clicked using the submitter property
+      var action = e.submitter.value;
+
+      // Capture user information from form fields
+      var firstName = document.getElementById('firstName').value;
+      var lastName  = document.getElementById('lastName').value;
+      var phone     = document.getElementById('phone').value;
+      var email     = document.getElementById('email').value;
+      var age       = document.getElementById('age').value;
+      var gender    = document.querySelector('input[name="gender"]:checked').value;
+
+      // Identify the user with a unique identifier (using email here as an example)
+      webengage.user.login(email);
+
+      // Set user attributes to enrich the user profile
+      webengage.user.setAttribute("first_name", firstName);
+      webengage.user.setAttribute("last_name", lastName);
+      webengage.user.setAttribute("phone", phone);
+      webengage.user.setAttribute("email", email);
+      webengage.user.setAttribute("age", age);
+      webengage.user.setAttribute("gender", gender);
+
+      // Check which button was clicked and track the corresponding event
+      if (action === 'signup') {
+        // Track form submission event
+        webengage.track("FormSubmitted", {
+          "first_name": firstName,
+          "last_name": lastName,
+          "phone": phone,
+          "email": email,
+          "age": age,
+          "gender": gender,
+          // Additional properties can be added here
+        });
+      } else if (action === 'addtocart') {
+        // Track add to cart event
+        webengage.track("AddToCart", {
+          "first_name": firstName,
+          "last_name": lastName,
+          "phone": phone,
+          "email": email,
+          "age": age,
+          "gender": gender,
+          // You can add product-specific or additional data here if needed
+        });
+      }
+    });
+  </script>
 </body>
 </html>
