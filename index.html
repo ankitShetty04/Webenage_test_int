@@ -1,159 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Newsletter Signup</title>
-  
+  <meta charset="UTF-8">
+  <title>Sign Up Form</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .newsletter-container {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      width: 300px;
-      text-align: center;
-    }
-    .newsletter-container h2 {
-      margin-bottom: 15px;
-    }
-    .newsletter-container input[type="text"],
-    .newsletter-container input[type="email"] {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
+    /* Basic styling for the form */
+    form {
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 15px;
       border: 1px solid #ccc;
       border-radius: 5px;
+      font-family: Arial, sans-serif;
     }
-    .newsletter-container label {
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: start;
+    .form-group {
+      margin-bottom: 15px;
     }
-    .newsletter-container button {
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    input[type="number"] {
       width: 100%;
-      padding: 10px;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 10px;
+      padding: 8px;
+      box-sizing: border-box;
     }
-    .newsletter-container button:hover {
-      background: #0056b3;
+    .radio-group,
+    .checkbox-group {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    button {
+      padding: 10px 15px;
+      margin-right: 10px;
+      border: none;
+      background-color: #007BFF;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+    button:hover {
+      background-color: #0056b3;
     }
   </style>
-  
-  <!-- Your custom script for form validation and tracking -->
-  <script>
-    function validateForm(event) {
-      event.preventDefault();
-      let firstName = document.getElementById("firstName").value.trim();
-      let lastName = document.getElementById("lastName").value.trim();
-      let phoneNumber = document.getElementById("phoneNumber").value.trim();
-      let email = document.getElementById("email").value.trim();
-      let whatsappOptin = document.getElementById("whatsappOptin").checked;
-      
-      let phonePattern = /^\d{10}$/;
-      let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      
-      if (firstName === "" || lastName === "" || phoneNumber === "" || email === "") {
-        alert("All fields are required.");
-        return;
-      }
-      if (!phonePattern.test(phoneNumber)) {
-        alert("Please enter a valid 10-digit phone number.");
-        return;
-      }
-      if (!emailPattern.test(email)) {
-        alert("Please enter a valid email address.");
-        return;
-      }
-      
-      // WebEngage tracking calls
-      webengage.user.login(email);
-      webengage.user.setAttribute("we_first_name", firstName);
-      webengage.user.setAttribute("we_last_name", lastName);
-      webengage.user.setAttribute("we_phone", phoneNumber);
-      webengage.track("Newsletter Signup", {
-        "First Name": firstName,
-        "Last Name": lastName,
-        "Phone Number": phoneNumber,
-        "Email": email,
-        "WhatsApp Opt-in": whatsappOptin ? "Yes" : "No"
-      });
-      
-      alert("Form submitted successfully!");
-    }
-  </script>
-  
-  <!-- WebEngage Integration Script (Place at the end of head) -->
-  <script id="_webengage_script_tag" type="text/javascript">
-    var webengage;
-    !function(w,e,b,n,g){
-      function o(e,t){
-        e[t[t.length-1]] = function(){
-          r.__queue.push([t.join("."), arguments])
-        }
-      }
-      var i,s,r = w[b], z = " ", l = "init options track screen onReady".split(z),
-          a = "webPersonalization feedback survey notification notificationInbox".split(z),
-          c = "options render clear abort".split(z),
-          p = "Prepare Render Open Close Submit Complete View Click".split(z),
-          u = "identify login logout setAttribute".split(z);
-      if(!r || !r.__v){
-        for(w[b] = r = {__queue:[], __v:"6.0", user:{}}, i = 0; i < l.length; i++) {
-          o(r, [l[i]]);
-        }
-        for(i = 0; i < a.length; i++){
-          for(r[a[i]] = {}, s = 0; s < c.length; s++) {
-            o(r[a[i]], [a[i], c[s]]);
-          }
-          for(s = 0; s < p.length; s++){
-            o(r[a[i]], [a[i], "on" + p[s]])
-          }
-        }
-        for(i = 0; i < u.length; i++) {
-          o(r.user, ["user", u[i]]);
-        }
-        setTimeout(function(){
-          var f = e.createElement("script"),
-              d = e.getElementById("_webengage_script_tag");
-          f.type = "text/javascript";
-          f.async = !0;
-          f.src = ("https:" == e.location.protocol ? "https://ssl.widgets.webengage.com" : "http://cdn.widgets.webengage.com") + "/js/webengage-min-v-6.0.js";
-          d.parentNode.insertBefore(f, d);
-        });
-      }
-    }(window, document, "webengage");
-    webengage.init("~1341048c0");
-  </script>
-  
 </head>
 <body>
-  <div class="newsletter-container">
-    <h2>Subscribe to our Newsletter</h2>
-    <form onsubmit="validateForm(event)">
-      <input type="text" id="firstName" placeholder="First Name" required>
-      <input type="text" id="lastName" placeholder="Last Name" required>
-      <input type="text" id="phoneNumber" placeholder="Phone Number" required>
-      <input type="email" id="email" placeholder="Enter your email" required>
-      <label>
-        <input type="checkbox" id="whatsappOptin"> I agree to receive updates via WhatsApp
-      </label>
-      <button type="submit">Login</button>
-      <button type="button" onclick="webengage.track('Add to Cart', { 'Email': document.getElementById('email').value }); alert('Added to cart!')">Add to Cart</button>
-    </form>
-  </div>
+  <form action="#" method="post">
+    <!-- First Name -->
+    <div class="form-group">
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" name="firstName" required>
+    </div>
+
+    <!-- Last Name -->
+    <div class="form-group">
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" name="lastName" required>
+    </div>
+
+    <!-- Phone -->
+    <div class="form-group">
+      <label for="phone">Phone:</label>
+      <input type="tel" id="phone" name="phone" required>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+
+    <!-- Age -->
+    <div class="form-group">
+      <label for="age">Age:</label>
+      <input type="number" id="age" name="age" required>
+    </div>
+
+    <!-- Gender -->
+    <div class="form-group">
+      <label>Gender:</label>
+      <div class="radio-group">
+        <input type="radio" id="genderMale" name="gender" value="male">
+        <label for="genderMale">Male</label>
+
+        <input type="radio" id="genderFemale" name="gender" value="female">
+        <label for="genderFemale">Female</label>
+
+        <input type="radio" id="genderOther" name="gender" value="other">
+        <label for="genderOther">Other</label>
+      </div>
+    </div>
+
+    <!-- Opt-In Checkboxes -->
+    <div class="form-group">
+      <label>Opt In Preferences:</label>
+      <div class="checkbox-group">
+        <input type="checkbox" id="whatsappOptIn" name="optin" value="whatsapp">
+        <label for="whatsappOptIn">WhatsApp Opt In</label>
+      </div>
+      <div class="checkbox-group">
+        <input type="checkbox" id="smsOptIn" name="optin" value="sms">
+        <label for="smsOptIn">SMS Opt In</label>
+      </div>
+      <div class="checkbox-group">
+        <input type="checkbox" id="emailOptIn" name="optin" value="email">
+        <label for="emailOptIn">Email Opt In</label>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="form-group">
+      <button type="submit" name="action" value="signup">Sign Up</button>
+      <button type="submit" name="action" value="addtocart">Add to Cart</button>
+    </div>
+  </form>
 </body>
 </html>
