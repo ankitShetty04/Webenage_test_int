@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Sign Up Form</title>
+  <title>Sign Up Form with Validations</title>
   <style>
-    /* Basic styling for the form */
     form {
       max-width: 400px;
       margin: 20px auto;
@@ -34,6 +33,7 @@
       display: flex;
       gap: 10px;
       align-items: center;
+      margin-bottom: 5px;
     }
     button {
       padding: 10px 15px;
@@ -54,19 +54,22 @@
     <!-- First Name -->
     <div class="form-group">
       <label for="firstName">First Name:</label>
-      <input type="text" id="firstName" name="firstName" required>
+      <input type="text" id="firstName" name="firstName" 
+             pattern="[A-Za-z\s]+" title="Please enter alphabets only." required>
     </div>
 
     <!-- Last Name -->
     <div class="form-group">
       <label for="lastName">Last Name:</label>
-      <input type="text" id="lastName" name="lastName" required>
+      <input type="text" id="lastName" name="lastName" 
+             pattern="[A-Za-z\s]+" title="Please enter alphabets only." required>
     </div>
 
     <!-- Phone -->
     <div class="form-group">
       <label for="phone">Phone:</label>
-      <input type="tel" id="phone" name="phone" required>
+      <input type="tel" id="phone" name="phone" 
+             pattern="[0-9]{10}" title="Please enter a valid 10-digit phone number." required>
     </div>
 
     <!-- Email -->
@@ -78,37 +81,37 @@
     <!-- Age -->
     <div class="form-group">
       <label for="age">Age:</label>
-      <input type="number" id="age" name="age" required>
+      <input type="number" id="age" name="age" min="1" max="120" required>
     </div>
 
     <!-- Gender -->
     <div class="form-group">
       <label>Gender:</label>
       <div class="radio-group">
-        <input type="radio" id="genderMale" name="gender" value="male">
+        <input type="radio" id="genderMale" name="gender" value="male" required>
         <label for="genderMale">Male</label>
-
+        
         <input type="radio" id="genderFemale" name="gender" value="female">
         <label for="genderFemale">Female</label>
-
+        
         <input type="radio" id="genderOther" name="gender" value="other">
         <label for="genderOther">Other</label>
       </div>
     </div>
 
-    <!-- Opt-In Checkboxes -->
+    <!-- Opt-In Checkboxes (No validations added here) -->
     <div class="form-group">
       <label>Opt In Preferences:</label>
       <div class="checkbox-group">
-        <input type="checkbox" id="whatsappOptIn" name="optin" value="whatsapp">
+        <input type="checkbox" id="whatsappOptIn" name="optin[]" value="whatsapp">
         <label for="whatsappOptIn">WhatsApp Opt In</label>
       </div>
       <div class="checkbox-group">
-        <input type="checkbox" id="smsOptIn" name="optin" value="sms">
+        <input type="checkbox" id="smsOptIn" name="optin[]" value="sms">
         <label for="smsOptIn">SMS Opt In</label>
       </div>
       <div class="checkbox-group">
-        <input type="checkbox" id="emailOptIn" name="optin" value="email">
+        <input type="checkbox" id="emailOptIn" name="optin[]" value="email">
         <label for="emailOptIn">Email Opt In</label>
       </div>
     </div>
