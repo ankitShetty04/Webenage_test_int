@@ -126,5 +126,45 @@ arguments])}}var i,s,r=w[b],z=" ",l="init options track screen onReady".split(z)
       <button type="submit" name="action" value="addtocart">Add to Cart</button>
     </div>
   </form>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault(); // Prevent page reload
+
+      // Capture user input
+      const firstName = document.getElementById("firstName").value.trim();
+      const lastName = document.getElementById("lastName").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const age = document.getElementById("age").value.trim();
+      const gender = document.querySelector('input[name="gender"]:checked')?.value || "";
+
+      // Generate a unique identifier (use email or phone)
+      const userId = email || phone; 
+
+      if (!userId) {
+        alert("Email or Phone is required to track user.");
+        return;
+      }
+
+      // Send data to WebEngage
+      webengage.user.login(userId);
+      webengage.user.setAttribute("we_first_name", firstName);
+      webengage.user.setAttribute("we_last_name", lastName);
+      webengage.user.setAttribute("we_email", email);
+      webengage.user.setAttribute("we_phone", phone);
+      webengage.user.setAttribute("we_gender", gender);
+      webengage.user.setAttribute("we_age", parseInt(age));
+
+      alert("User data sent to WebEngage!");
+
+      // Uncomment this to allow actual form submission
+      // form.submit();
+    });
+  });
+</script>
 </body>
 </html>
